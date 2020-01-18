@@ -9,7 +9,7 @@ docker-compose-letsencrypt-nginx-proxy-companion:
     before_script:
         - set +e # Disable exit on error
         - whoami
-        - sudo bash ./scripts/before_script_install.sh
+        # - sudo bash ./scripts/before_script_install.sh
         - set -e # Enable exit on error 
     script:
         - set +e # Disable exit on error
