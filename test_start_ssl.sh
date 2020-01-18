@@ -1,15 +1,14 @@
 #!/bin/bash
 
-NAME=test-web
 
-
-# Set up your DOMAIN
-if [ $# -eq 0 ]; then
+# Set up your DOMAIN, NAME
+if [ $# -eq 1 ]; then
     echo "Please inform your domain name to test your proxy."
-    echo "./test_start_ssl.sh $1"
+    echo "./test_start_ssl.sh $1 $2"
     exit 1
 else
     DOMAIN=$1
+    NAME=$2
 fi
 
 # Read your .env file

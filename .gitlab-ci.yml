@@ -38,6 +38,6 @@ docker-compose-letsencrypt-nginx-proxy-companion:
         - sudo docker image prune -a -f
 
         - sudo bash ./start.sh
-        - sudo bash ./test_start_ssl.sh wjlee.myqnapcloud.com
+        - sudo bash ./test_start_ssl.sh wjlee.myqnapcloud.com httpd
         - sudo chown -R gitlab-runner:gitlab-runner $PWD/*
         - set -e # Enable exit on error 
