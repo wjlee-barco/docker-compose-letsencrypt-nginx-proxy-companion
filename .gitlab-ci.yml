@@ -38,7 +38,8 @@ docker-compose-letsencrypt-nginx-proxy-companion:
         - sudo docker container ls -q
         
         # first stop docker process  
-        - sudo docker stop  $(sudo docker container ls -aq --filter name=nginx-web:-nginx-web)
+        - sudo docker stop  $(sudo docker container ls -aq --filter name=nginx-web)
+        - sudo docker stop  $(sudo docker container ls -aq --filter name=nginx-gen)
 
         # clean up all stop images
         - sudo docker container prune -f
@@ -47,5 +48,3 @@ docker-compose-letsencrypt-nginx-proxy-companion:
         - sudo bash ./start.sh
         - sudo chown -R gitlab-runner:gitlab-runner $PWD/*
         - set -e # Enable exit on error 
-    after_script:
-        - sudo chown -R gitlab-runner:gitlab-runner $PWD/*

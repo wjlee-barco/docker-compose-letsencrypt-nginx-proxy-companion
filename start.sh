@@ -61,9 +61,9 @@ fi
 
 # Check if you have multiple network
 if [ -z ${SERVICE_NETWORK+X} ]; then
-    docker-compose up -d
+    docker-compose up
 else
-    docker-compose -f docker-compose-multiple-networks.yml up -d
+    docker-compose -f docker-compose-multiple-networks.yml up
 fi
 
 exit 0
