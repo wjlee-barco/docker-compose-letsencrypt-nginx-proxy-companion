@@ -9,17 +9,7 @@ docker-compose-letsencrypt-nginx-proxy-companion:
     before_script:
         - set +e # Disable exit on error
         - whoami
-        - sudo apt-get -y install lsb-core
-        - sudo apt-get -y install curl
-        # install ntp
-        - sudo apt-get -y install ntp
-        - sudo service ntp restart
-            
-        # docker installation
-        - curl -sSL https://get.docker.com | sh
-        - sudo usermod -aG docker root
-        - sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        - sudo chmod +x /usr/local/bin/docker-compose
+        - sudo bash ./before_script_install.sh
         - set -e # Enable exit on error 
     script:
         - set +e # Disable exit on error
@@ -41,12 +31,13 @@ docker-compose-letsencrypt-nginx-proxy-companion:
         - sudo docker stop  $(sudo docker container ls -aq --filter name=nginx-web)
         - sudo docker stop  $(sudo docker container ls -aq --filter name=nginx-gen)
         - sudo docker stop  $(sudo docker container ls -aq --filter name=nginx-letsencrypt)
+        - sudo docker stop  $(sudo docker container ls -aq --filter name=httpd)
 
         # clean up all stop images
         - sudo docker container prune -f
         - sudo docker image prune -a -f
 
         - sudo bash ./start.sh
-        - sudo docker run -e VIRTUAL_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_EMAIL=wjlee@csie.nctu.edu.tw --network=webproxy --name my_app httpd:alpine
+        - sudo docker run -e VIRTUAL_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_EMAIL=wjlee@csie.nctu.edu.tw --network=webproxy --name httpd httpd:alpine
         - sudo chown -R gitlab-runner:gitlab-runner $PWD/*
         - set -e # Enable exit on error 
