@@ -1,4 +1,4 @@
-nginx-certbot:
+docker-compose-letsencrypt-nginx-proxy-companion:
 #  variables:
 #    CI_DEBUG_TRACE: "true"
     tags:
@@ -38,8 +38,7 @@ nginx-certbot:
         - sudo docker container ls -q
         
         # first stop docker process  
-        - sudo docker stop  $(sudo docker container ls -aq --filter name=certbot-nginx)
-        - sudo docker stop  $(sudo docker container ls -aq --filter name=certbot)
+        - sudo docker stop  $(sudo docker container ls -aq --filter name=nginx-web:-nginx-web)
 
         # clean up all stop images
         - sudo docker container prune -f
