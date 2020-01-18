@@ -1,0 +1,52 @@
+nginx-certbot:
+#  variables:
+#    CI_DEBUG_TRACE: "true"
+    tags:
+        - shell, ubuntu, wjlee.myqnapcloud.com
+    stage: deploy
+    cache:
+        paths:
+    before_script:
+        - set +e # Disable exit on error
+        - whoami
+        - sudo apt-get -y install lsb-core
+        - sudo apt-get -y install curl
+        # install ntp
+        - sudo apt-get -y install ntp
+        - sudo service ntp restart
+            
+        # docker installation
+        - curl -sSL https://get.docker.com | sh
+        - sudo usermod -aG docker root
+        - sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        - sudo chmod +x /usr/local/bin/docker-compose
+        - set -e # Enable exit on error 
+    script:
+        - set +e # Disable exit on error
+        - echo $PWD
+        # echo " Assume user is gitlab-runner. If root, then sudo can be removed"
+        - echo $USER
+        - ip route show
+        - ifconfig
+        
+        - sudo lsb_release -a
+        - sudo uname -a
+        - sudo docker --version
+        - sudo docker images
+        - sudo docker system df
+        - sudo docker ps
+        - sudo docker container ls -q
+        
+        # first stop docker process  
+        - sudo docker stop  $(sudo docker container ls -aq --filter name=certbot-nginx)
+        - sudo docker stop  $(sudo docker container ls -aq --filter name=certbot)
+
+        # clean up all stop images
+        - sudo docker container prune -f
+        - sudo docker image prune -a -f
+
+        - sudo bash ./start.sh
+        - sudo chown -R gitlab-runner:gitlab-runner $PWD/*
+        - set -e # Enable exit on error 
+    after_script:
+        - sudo chown -R gitlab-runner:gitlab-runner $PWD/*
