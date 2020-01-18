@@ -38,6 +38,7 @@ docker-compose-letsencrypt-nginx-proxy-companion:
         - sudo docker image prune -a -f
 
         - sudo bash ./start.sh
-        - sudo docker run -e VIRTUAL_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_EMAIL=wjlee@csie.nctu.edu.tw --network=webproxy --name httpd httpd:alpine
+        - sudo docker run -e VIRTUAL_HOST=wjlee.myqnapcloud.com --network=webproxy --name httpd httpd:alpine
+        # - sudo docker run -e VIRTUAL_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_HOST=wjlee.myqnapcloud.com -e LETSENCRYPT_EMAIL=wjlee@csie.nctu.edu.tw --network=webproxy --name httpd httpd:alpine
         - sudo chown -R gitlab-runner:gitlab-runner $PWD/*
         - set -e # Enable exit on error 
