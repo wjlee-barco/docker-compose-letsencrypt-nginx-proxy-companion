@@ -1,5 +1,27 @@
 #!/bin/bash
 
+#
+# Step 1: This file first update env with your .env file
+#
+# 1.1 Check if .env file exists
+#
+if [ -e ../.env ]; then
+    source ../.env
+else 
+    echo "It seems you didn´t create your .env file, so we will create one for you."
+    cp ../.env.sample ../.env
+    # exit 1
+fi
+
+#
+# Step 2: Update necessary components and docker
+# 
+# 2.1 lsb_release
+# 2.2 curl
+# 2.3 ntp
+# 2.4 docker
+# 2.5 docker-compose
+#
 sudo apt-get -y install lsb-core
 sudo apt-get -y install curl
 # install ntp
